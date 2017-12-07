@@ -1,4 +1,5 @@
 import React from 'react';
+import {SymbolX, SymbolO} from './Symbols';
 
 class Square extends React.Component {
 	render() {
