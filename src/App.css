@@ -1,5 +1,6 @@
-.App {
+body {
 	text-align: center;
+	background: #202020;
 }
 
 .game {
@@ -12,11 +13,14 @@
 .square {
 	width: 150px;
 	height: 150px;
-	border: 0px solid red;
+	border: 0px solid #D8C8B3;
 	float: left;
 	font-size: 25px;
 	text-align: center;
-	line-height: 150px;
+	/* center images inside square*/
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .square:nth-child(3n+1) {
@@ -25,13 +29,13 @@
 
 .square:nth-child(5),
 .square:nth-child(6n+2) {
-	border-left: 3px solid red;
-	border-right: 3px solid red;
+	border-left: 3px solid #D8C8B3;
+	border-right: 3px solid #D8C8B3;
 }
 
 .square:nth-child(5),
 .square:nth-child(4),
 .square:nth-child(6) {
-	border-top: 3px solid red;
-	border-bottom: 3px solid red;
+	border-top: 3px solid #D8C8B3;
+	border-bottom: 3px solid #D8C8B3;
 }
