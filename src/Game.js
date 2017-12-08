@@ -5,6 +5,11 @@ import './App.css';
 
 class Game extends React.Component {
 
+	state = {
+		nextPlayer: 'X',
+		// array that keeps current game's history
+		gameBoard: Array(9).fill(null)
+	}
 
 	handleSquareClick = (element) => {
     element.currentTarget.style.backgroundColor = 'green';
