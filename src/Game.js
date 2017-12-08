@@ -12,7 +12,14 @@ class Game extends React.Component {
 	}
 
 	handleSquareClick = (element) => {
-    element.currentTarget.style.backgroundColor = 'green';
+		let gameBoard = [...this.state.gameBoard];
+		gameBoard[element.currentTarget.id] = this.state.nextPlayer;
+		this.setState({gameBoard: gameBoard});
+		this.changePlayerTurn();
+	}
+
+	changePlayerTurn = () => {
+		this.state.nextPlayer === 'X' ? this.setState({nextPlayer:'O'}) : this.setState({nextPlayer:'X'});
 	}
 
 	render() {
