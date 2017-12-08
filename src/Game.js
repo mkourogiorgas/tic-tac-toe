@@ -1,6 +1,7 @@
 import React from 'react';
 import Square from './Square';
 import {SymbolO, SymbolX} from './Symbols';
+import NextPlayer from './NextPlayer.js'
 import './App.css';
 
 class Game extends React.Component {
@@ -40,11 +41,14 @@ class Game extends React.Component {
 
 		return (
 			<div className='game'>
-				{[...Array(9)].map((x, i) =>
-					<Square key={i} id={i} click={this.handleSquareClick.bind(this)} >
-						{symbolsToRender[i]}
-					</Square>
-				)}
+				<NextPlayer player={this.state.nextPlayer}/>
+				<div className="board">
+					{[...Array(9)].map((x, i) =>
+						<Square key={i} id={i} click={this.handleSquareClick.bind(this)} >
+							{symbolsToRender[i]}
+						</Square>
+					)}
+				</div>
 			</div>
 		);
 	}

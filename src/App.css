@@ -39,3 +39,17 @@ body {
 	border-top: 3px solid #D8C8B3;
 	border-bottom: 3px solid #D8C8B3;
 }
+
+.nextPlayer {
+	color: #D8C8B3;
+	font-size: 25px;
+	font-family:'Lato', sans-serif;
+	margin-top: 20px;
+	-webkit-animation: flicker 3s infinite;
+}
+
+@-webkit-keyframes flicker {
+	0% {opacity: .05}
+	50% {opacity: 1}
+	100% {opacity: .05}
+}
