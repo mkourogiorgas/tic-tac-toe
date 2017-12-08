@@ -4,7 +4,7 @@ import {SymbolX, SymbolO} from './Symbols';
 class Square extends React.Component {
 	render() {
 		return (
-			<div id={'square'+this.props.id} className='square' onClick={this.props.click}>
+			<div id={this.props.id} className='square' onClick={this.props.click}>
 			</div>
 		);
 	}
