@@ -12,10 +12,16 @@ class Game extends React.Component {
 	}
 
 	handleSquareClick = (element) => {
-		let gameBoard = [...this.state.gameBoard];
-		gameBoard[element.currentTarget.id] = this.state.nextPlayer;
-		this.setState({gameBoard: gameBoard});
-		this.changePlayerTurn();
+		// match component with index of game board array
+		let arrayIndex = element.currentTarget.id;
+		// check if component has already been clicked
+		// if yes do nothing 
+		if(this.state.gameBoard[arrayIndex] === null) {
+			let gameBoard = [...this.state.gameBoard];
+			gameBoard[arrayIndex] = this.state.nextPlayer;
+			this.setState({gameBoard: gameBoard});
+			this.changePlayerTurn();
+		}
 	}
 
 	changePlayerTurn = () => {
@@ -24,7 +30,6 @@ class Game extends React.Component {
 
 	render() {
 		let symbolsToRender = [];
-		
 		this.state.gameBoard.forEach((element, index) => {
 			if (element === 'O') {
 				symbolsToRender[index] = <SymbolO/>;
