@@ -23,10 +23,15 @@ class Game extends React.Component {
 	}
 
 	render() {
-		let symbolsToRender = Array(9);
-		for (let i=0; i<symbolsToRender.length; i++) {
-			symbolsToRender[i] = <SymbolO/>;
-		}
+		let symbolsToRender = [];
+		
+		this.state.gameBoard.forEach((element, index) => {
+			if (element === 'O') {
+				symbolsToRender[index] = <SymbolO/>;
+			} else if (element === 'X') {
+				symbolsToRender[index] = <SymbolX/>;
+			}
+		});	
 
 		return (
 			<div className='game'>
