@@ -7,7 +7,8 @@ import './App.css';
 class Game extends React.Component {
 
 	state = {
-		nextPlayer: 'X',
+		// next player is inherited from parent state when game opens for first time
+		nextPlayer: this.props.firstPlayer,
 		// array that keeps current game's history
 		gameBoard: Array(9).fill(null)
 	}
@@ -30,6 +31,7 @@ class Game extends React.Component {
 	}
 
 	render() {
+		
 		let symbolsToRender = [];
 		this.state.gameBoard.forEach((element, index) => {
 			if (element === 'O') {
@@ -40,7 +42,7 @@ class Game extends React.Component {
 		});	
 
 		return (
-			<div className='game'>
+			<div className='game' >
 				<NextPlayer player={this.state.nextPlayer}/>
 				<div className="board">
 					{[...Array(9)].map((x, i) =>

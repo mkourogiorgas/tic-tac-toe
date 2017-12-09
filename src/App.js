@@ -1,12 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Game from './Game';
+import ChooseSymbol from './ChooseSymbol.js';
 import './App.css';
 
-class App extends Component {
+class App extends React.Component {
+	state = {
+		firstPlayer: null
+	}
+
+	handleSelectedSymbol = (element) => {
+		this.setState({firstPlayer: element.currentTarget.id});
+	}
+
 	render() {
+		let componentToRender = this.state.firstPlayer === null ? <ChooseSymbol click={this.handleSelectedSymbol.bind(this)} /> : <Game firstPlayer={this.state.firstPlayer}/>;
 		return (
 			<div className="App">
-				<Game/>
+				{componentToRender}
 			</div>
 		);
 	}

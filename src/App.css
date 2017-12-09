@@ -5,14 +5,15 @@ body {
 	height: 100%;
 	position: absolute;
 	margin: 0;
+	font-family:'Lato', sans-serif;
 }
 
 .board {
-  position: relative;
+	position: relative;
 	width: 450px;
-  margin: 50px auto;
-  overflow: auto;
-  display: block;
+	margin: 50px auto;
+	overflow: auto;
+	display: block;
 }
 
 .square {
@@ -58,4 +59,56 @@ body {
 	0% {opacity: .05}
 	50% {opacity: 1}
 	100% {opacity: .05}
+}
+
+/****** Choose Overlay ******/
+.overlay {
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	z-index: 100;
+	top: 0;
+	left: 0;
+	background-color: #202020;
+	opacity: 1;
+	overflow: hidden;
+	transition: 0.5s;
+}
+
+.overlay-text {
+	position: relative;
+	font-weight: lighter;
+	font-size: 40px;
+	text-align: center;
+	color: #D8C8B3;
+	top: 25%;
+	width: 100%;
+	font-size: 30px;
+}
+
+.overlay-title {
+	padding: 10px;
+	-webkit-animation: flicker 3s infinite;
+}
+
+.overlay-image {
+	width: 50%;
+	padding-top: 80px;
+	float: left;
+	font-size: 100px;
+	color: #818181;
+	display: block;
+}
+
+.overlay-image img{
+	transition: 0.3s;
+	-moz-transition: all 0.3s;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.overlay-image img:hover {
+	-moz-transform: scale(1.25);
+	-webkit-transform: scale(1.25);
+	transform: scale(1.25);
 }
