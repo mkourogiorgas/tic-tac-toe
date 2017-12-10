@@ -3,19 +3,107 @@ import Square from './Square';
 import {SymbolO, SymbolX} from './Symbols';
 import NextPlayer from './NextPlayer.js'
 import History from './History.js'
+import Result from './Result.js'
 import './App.css';
 
 class Game extends React.Component {
-
-	// nextPlayer: next game player, initialized when user selects a symbol
-	// gameBoard: saves current game's board values into an array
-	// history: contains all moves completed, as also the sequence of these moves
+	// nextPlayer: next game player, initialized when user selects a symbol,
+	// gameBoard: keeps current game's board values into an array,
+	// imagesToDraw: gameBoard array translated to images,
+	// history: contains all moves completed, as also the sequence of these moves,
+	// resultIsOpened: true if result is currently presented,
+	// winner: 'X' or 'O' if winner exists
 	state = {
 		nextPlayer: this.props.firstPlayer,
 		gameBoard: Array(9).fill(null),
-		history: []
+		imagesToDraw: [],
+		history: [],
+		resultIsOpened: false,
+		winner: null
 	}
 
+	// handles a square's click
+	// if square component has already been click does nothing
+	// if not updates gameBoard, next player, board images and history
+	handleSquareClick = (element) => {
+		let imagesToDraw, gameBoard = [...this.state.gameBoard], nextPlayer, historyUpdate;
+		if(this.state.gameBoard[element.currentTarget.id] === null) {
+			let updates = new Promise((resolve, reject) => {
+				gameBoard[element.currentTarget.id] = this.state.nextPlayer;
+				imagesToDraw = this.imagesToDraw(gameBoard);
+				nextPlayer = this.changePlayerTurn();
+				historyUpdate = this.historyUpdate(gameBoard);
+
+				resolve('updated')
+			}); 
+
+			updates.then(
+				this.setState({ 
+					gameBoard: gameBoard,
+					imagesToDraw: imagesToDraw,
+					nextPlayer: nextPlayer,
+					history: historyUpdate
+				})
+			)
+		}
+	}
+
+	// handles a history button click
+	// updates gameBoard, next player and board images
+	handleHistoryClick = (element) => {
+		let nextPlayer, gameBoard, imagesToDraw;
+		let updates = new Promise((resolve, reject) => {
+			nextPlayer = this.calculateNextPlayer(element);
+			gameBoard = this.state.history[element.currentTarget.id];
+			imagesToDraw = this.imagesToDraw(gameBoard);
+			resolve('updated')
+		}); 
+		updates.then(
+			this.setState({
+				nextPlayer: nextPlayer,
+				gameBoard: gameBoard,
+				imagesToDraw: imagesToDraw
+			})
+		)
+	}
+
+	imagesToDraw = (board) => {
+		let images = Array(9).fill(null);
+		board.forEach((element, index) => {
+			if(element !== null)
+			images[index] = this.playerToImage(element);
+		});
+		return images;
+	}
+
+	changePlayerTurn = () => {
+		let nextPlayer;
+		this.state.nextPlayer === 'X' ? nextPlayer = 'O' : nextPlayer = 'X';
+		return nextPlayer;
+	}
+
+	// updates history based on current game board
+	// the function also perfoms one important check
+	// checks if user that already returned to a previous history stage, decides to click a different square
+	// in this case game changes, and the history array will adapt to new game state
+	historyUpdate = (currentBoard) => {
+		let history = this.state.history, length = history.length, index = 0;
+		currentBoard.forEach((element) => {
+			if(element !== null) {
+				index++;
+			}		
+		});
+
+		if(index < length) {
+			for (let i=0; i<= length-index; i++) {
+				history.pop();
+			}
+		}
+
+		history.push(currentBoard)
+		console.log(history)
+		return history;
+	}
 
 	// matches player to the corresponding image
 	playerToImage = (player) => {
@@ -26,96 +114,84 @@ class Game extends React.Component {
 		}
 	}
 
-	// handles square click
-	// if square component has already been click does nothing
-	// if not updates gameBoard, next player and history
-	handleSquareClick = (element) => {
-		let arrayIndex = element.currentTarget.id;
-		if(this.state.gameBoard[arrayIndex] === null) {
-			let gameBoard = [...this.state.gameBoard];
-			gameBoard[arrayIndex] = this.state.nextPlayer;
-			this.setState({gameBoard: gameBoard});
-			this.changePlayerTurn();
-			this.updateHistory(gameBoard);
-		}
-	}
-
-	changePlayerTurn = () => {
-		this.state.nextPlayer === 'X' ? this.setState({nextPlayer:'O'}) : this.setState({nextPlayer:'X'});
-	}
-
-	// updates history based on current game board
-	// the function also perfoms one important check
-	// checks if user while have already returned to a previous history stage decides to click a different square
-	// in this case the game will change, and the history array must adapt to new game state
-	updateHistory = (currentBoard) => {
-		let index = 0, history = this.state.history, length = history.length;;
-		currentBoard.forEach((element) => {
-			if(element !== null) {
-				index++;
-			}		
-		});
-
-		if(index < history.length) {
-			for (let i=0; i <= length-index; i++) {
-				history.pop();
-			}
-			this.setState({history: history});
-		}
-		history.push(currentBoard)
-		this.setState({history: history});
-	}
-
-	handleHistoryClick = (element) => {
-		this.calculateNextPlayer(element);
-		this.setState({gameBoard : this.state.history[element.currentTarget.id]});
-	}
-
 	// a click on the board while viewing history will totaly change the game 
-	// in this case we must know who the next player is 
+	// in this case we have to calcualte who the next player is 
 	calculateNextPlayer = (element) => {
-		let xNumber = 0, oNumber = 0;
+		let xNumber = 0, oNumber = 0, nextPlayer;
 		this.state.history[element.currentTarget.id].forEach((element) => {
-			if(element!==null) {
+			console.log(element);
+			if(element !==null ) {
 				element === 'X' ? xNumber++ : oNumber++;
 			}
 		});
 
 		if(xNumber > oNumber) {
-			this.setState({nextPlayer:'O'});
+			nextPlayer = 'O';
 		} else if(oNumber > xNumber) {
-			this.setState({nextPlayer:'X'});
+			nextPlayer = 'X';
 		} else if(oNumber === xNumber) {
-			this.setState({nextPlayer:this.props.firstPlayer});
+			nextPlayer = this.props.firstPlayer;
 		}
+		return nextPlayer;
+	}
+
+	calculateResult = () => {
+		let index = 0;
+		let gameBoard = this.state.gameBoard;
+		const winningLines = [[0, 4, 8], [2, 4, 6], [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8]];
+		winningLines.forEach((element, index) => {
+			const  [a, b, c] = element;
+			if (gameBoard[a] !== null && gameBoard[a] === gameBoard[b] && gameBoard[b] === gameBoard[c]) {
+				this.handleResult(gameBoard[a]);
+			}
+		});
+
+		// if(!this.state.winner) {
+		// 	gameBoard.forEach((element, index) => {  
+		// 		if(element !== null) {
+		// 			index++;
+		// 		}
+		// 		index === 9 ? this.handleResult('draw') : void(0);
+
+		// 	});
+		// }
+
+	}
+
+	handleResult = (winner) => {
+		this.setState({resultIsOpened: true, winner: winner});
+	}
+
+	gameRestart = () => {
+		this.setState({
+			nextPlayer: this.props.firstPlayer,
+			gameBoard: Array(9).fill(null),
+			history: [],
+			resultIsOpened: false,
+			winner: null
+		});
 	}
 
 	render() {
-		let symbolsToRender = [], historyClassName;
+		let historyClassName;
 		const firstPlayerImage = this.playerToImage(this.props.firstPlayer);
 		const secondPlayerImage = this.playerToImage(this.props.secondPlayer);
 
-		this.state.gameBoard.forEach((element, index) => {
-			symbolsToRender[index] = this.playerToImage(element)
-		});	
-
-		const nextPlayer = <NextPlayer player={this.state.nextPlayer}/>
-
+		const nextPlayer = <NextPlayer player={this.state.nextPlayer}/>;
 		const board = [...Array(9)].map((x, i) => {
 										return (
 											<Square key={i} id={i} click={this.handleSquareClick.bind(this)} >
-												{symbolsToRender[i]}
+												{this.state.imagesToDraw[i]}
 											</Square>
 										);
 									});
-
 		const history = this.state.history.map((x, i) => {
 												i % 2 === 0 ? historyClassName = 'leftHistory' : historyClassName = 'rightHistory';
 												return (
 													<History key={i} id={i} cssClass={historyClassName} click={this.handleHistoryClick.bind(this)}/>
 												)
 											})
-
+		const result = this.state.resultIsOpened ? <Result winner={this.state.winner} click={this.gameRestart}/> : null;
 
 		return (
 			<div className='game' >
@@ -131,6 +207,7 @@ class Game extends React.Component {
 					<div className='rightHistory'>{secondPlayerImage}</div>
 					{history}
 				</div>
+				{result}
 			</div>
 		);
 	}
