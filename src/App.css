@@ -11,7 +11,7 @@ body {
 .board {
 	position: relative;
 	width: 450px;
-	margin: 50px auto;
+	margin: 35px auto;
 	overflow: auto;
 	display: block;
 }
@@ -111,4 +111,44 @@ body {
 	-moz-transform: scale(1.25);
 	-webkit-transform: scale(1.25);
 	transform: scale(1.25);
+}
+
+/****** History ******/
+.history {
+	width:100%;
+	position: relative;
+}
+
+.history img{
+	width: 30px;
+	height: 30px;
+}
+
+.history .title {
+	font-size: 25px;
+	color: #D8C8B3;
+}
+
+.leftHistory,
+.rightHistory {
+	width: 50%;
+	height: auto;
+	float: left;
+	font-size: 25px;
+	color: #D8C8B3;
+
+}
+
+.history button {
+	margin-top: 5px;
+	border-width: 1px solid #D8C8B3;
+	background: #202020;;
+	color: #D8C8B3;
+	border-radius: 1px;
+	border-radius: 6px;
+	border: 1px solid #D8C8B3;
+	cursor: pointer;
+	color: #666666;
+	font-size: 20px;
+	padding: 5px 24px;
 }
