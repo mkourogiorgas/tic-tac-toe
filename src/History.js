@@ -6,7 +6,7 @@ class History extends React.Component {
 			<div>
 
 				<div className='history' id={this.props.id} className={this.props.cssClass} onClick={this.props.click}>
-					<button>Go to Step {this.id}</button>
+					<button>Go to Step {this.props.id+1}</button>
 				</div>
 			</div>	
 		);

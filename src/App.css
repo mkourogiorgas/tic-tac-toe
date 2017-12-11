@@ -142,13 +142,60 @@ body {
 .history button {
 	margin-top: 5px;
 	border-width: 1px solid #D8C8B3;
-	background: #202020;;
+	background: #202020;
 	color: #D8C8B3;
 	border-radius: 1px;
 	border-radius: 6px;
 	border: 1px solid #D8C8B3;
 	cursor: pointer;
 	color: #666666;
+	font-size: 20px;
+	padding: 5px 24px;
+}
+
+/***** Popup *****/
+.popup {
+	/*opacity: 0;*/
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0,0,0, 0.5);
+}
+.popup_inner {
+		/*opacity: 0;*/
+	border-radius: 5px;
+	border: 2px solid #202020;
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  top: 15%;
+  bottom: 65%;
+  margin: auto;
+  background: #D8C8B3;
+  box-shadow: 0 0 1em rgba(0, 0, 0, 0.6);
+}
+
+.announcementTitle {
+	margin: 5%;
+	padding: 2%;
+	font-size: 30px;
+	color: #202020;
+	border-bottom: 2px solid #202020;
+}
+
+.announcement button {
+	margin-top: 5px;
+	background: transparent;
+	border-radius: 1px;
+	border-radius: 6px;
+	border: 1px solid #202020;
+	cursor: pointer;
+	color: #202020;
 	font-size: 20px;
 	padding: 5px 24px;
 }

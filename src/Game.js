@@ -19,7 +19,7 @@ class Game extends React.Component {
 		imagesToDraw: [],
 		history: [],
 		resultIsOpened: false,
-		winner: null
+		winnerMessage: null
 	}
 
 	// handles a square's click
@@ -28,23 +28,20 @@ class Game extends React.Component {
 	handleSquareClick = (element) => {
 		let imagesToDraw, gameBoard = [...this.state.gameBoard], nextPlayer, historyUpdate;
 		if(this.state.gameBoard[element.currentTarget.id] === null) {
-			let updates = new Promise((resolve, reject) => {
-				gameBoard[element.currentTarget.id] = this.state.nextPlayer;
-				imagesToDraw = this.imagesToDraw(gameBoard);
-				nextPlayer = this.changePlayerTurn();
-				historyUpdate = this.historyUpdate(gameBoard);
+			gameBoard[element.currentTarget.id] = this.state.nextPlayer;
+			imagesToDraw = this.imagesToDraw(gameBoard);
+			nextPlayer = this.changePlayerTurn();
+			historyUpdate = this.historyUpdate(gameBoard);
+			
+			this.setState({ 
+				gameBoard: gameBoard,
+				imagesToDraw: imagesToDraw,
+				nextPlayer: nextPlayer,
+				history: historyUpdate
+			})
+				
 
-				resolve('updated')
-			}); 
-
-			updates.then(
-				this.setState({ 
-					gameBoard: gameBoard,
-					imagesToDraw: imagesToDraw,
-					nextPlayer: nextPlayer,
-					history: historyUpdate
-				})
-			)
+			this.calculateResult(gameBoard);
 		}
 	}
 
@@ -93,15 +90,13 @@ class Game extends React.Component {
 				index++;
 			}		
 		});
-
-		if(index < length) {
+		if(index <= length) {
 			for (let i=0; i<= length-index; i++) {
 				history.pop();
 			}
 		}
 
 		history.push(currentBoard)
-		console.log(history)
 		return history;
 	}
 
@@ -119,7 +114,6 @@ class Game extends React.Component {
 	calculateNextPlayer = (element) => {
 		let xNumber = 0, oNumber = 0, nextPlayer;
 		this.state.history[element.currentTarget.id].forEach((element) => {
-			console.log(element);
 			if(element !==null ) {
 				element === 'X' ? xNumber++ : oNumber++;
 			}
@@ -135,9 +129,8 @@ class Game extends React.Component {
 		return nextPlayer;
 	}
 
-	calculateResult = () => {
-		let index = 0;
-		let gameBoard = this.state.gameBoard;
+	calculateResult = (gameBoard) => {
+		let symbolsNo = 0;
 		const winningLines = [[0, 4, 8], [2, 4, 6], [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8]];
 		winningLines.forEach((element, index) => {
 			const  [a, b, c] = element;
@@ -146,20 +139,23 @@ class Game extends React.Component {
 			}
 		});
 
-		// if(!this.state.winner) {
-		// 	gameBoard.forEach((element, index) => {  
-		// 		if(element !== null) {
-		// 			index++;
-		// 		}
-		// 		index === 9 ? this.handleResult('draw') : void(0);
+		if(!this.state.winnerMessage) {
+			gameBoard.forEach((element, index) => {  
+				if(element !== null) {
+					symbolsNo++;
+				}
+				symbolsNo === 9 ? this.handleResult('It\'s a tie') : void(0);
 
-		// 	});
-		// }
+			});
+		}
 
 	}
 
-	handleResult = (winner) => {
-		this.setState({resultIsOpened: true, winner: winner});
+	handleResult = (message) => {
+		if(message.length === 1) {
+			message = 'Player ' + message + ' Wins';
+		}
+		this.setState({resultIsOpened: true, winnerMessage: message});
 	}
 
 	gameRestart = () => {
@@ -168,7 +164,7 @@ class Game extends React.Component {
 			gameBoard: Array(9).fill(null),
 			history: [],
 			resultIsOpened: false,
-			winner: null
+			winnerMessage: null
 		});
 	}
 
@@ -191,7 +187,7 @@ class Game extends React.Component {
 													<History key={i} id={i} cssClass={historyClassName} click={this.handleHistoryClick.bind(this)}/>
 												)
 											})
-		const result = this.state.resultIsOpened ? <Result winner={this.state.winner} click={this.gameRestart}/> : null;
+		const result = this.state.resultIsOpened ? <Result winner={this.state.winnerMessage} click={this.gameRestart}/> : null;
 
 		return (
 			<div className='game' >
