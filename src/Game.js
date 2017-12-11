@@ -1,9 +1,10 @@
 import React from 'react';
 import Square from './Square';
 import {SymbolO, SymbolX} from './Symbols';
-import NextPlayer from './NextPlayer.js'
-import History from './History.js'
-import Result from './Result.js'
+import NextPlayer from './NextPlayer.js';
+import History from './History.js';
+import Result from './Result.js';
+import SoundManager from './SoundManager';
 import './App.css';
 
 class Game extends React.Component {
@@ -19,7 +20,8 @@ class Game extends React.Component {
 		imagesToDraw: [],
 		history: [],
 		resultIsOpened: false,
-		winnerMessage: null
+		winnerMessage: null,
+		playSound: false,
 	}
 
 	// handles a square's click
@@ -32,12 +34,12 @@ class Game extends React.Component {
 			imagesToDraw = this.imagesToDraw(gameBoard);
 			nextPlayer = this.changePlayerTurn();
 			historyUpdate = this.historyUpdate(gameBoard);
-			
 			this.setState({ 
 				gameBoard: gameBoard,
 				imagesToDraw: imagesToDraw,
 				nextPlayer: nextPlayer,
-				history: historyUpdate
+				history: historyUpdate,
+				playSound: true,
 			})
 				
 
@@ -53,16 +55,19 @@ class Game extends React.Component {
 			nextPlayer = this.calculateNextPlayer(element);
 			gameBoard = this.state.history[element.currentTarget.id];
 			imagesToDraw = this.imagesToDraw(gameBoard);
-			resolve('updated')
+
+			resolve('updated');
 		}); 
 		updates.then(
 			this.setState({
 				nextPlayer: nextPlayer,
 				gameBoard: gameBoard,
-				imagesToDraw: imagesToDraw
+				imagesToDraw: imagesToDraw,
+				playSound: false
 			})
 		)
 	}
+
 
 	imagesToDraw = (board) => {
 		let images = Array(9).fill(null);
@@ -164,7 +169,8 @@ class Game extends React.Component {
 			gameBoard: Array(9).fill(null),
 			history: [],
 			resultIsOpened: false,
-			winnerMessage: null
+			winnerMessage: null,
+			playSound: false
 		});
 	}
 
@@ -176,24 +182,32 @@ class Game extends React.Component {
 		const nextPlayer = <NextPlayer player={this.state.nextPlayer}/>;
 		const board = [...Array(9)].map((x, i) => {
 										return (
-											<Square key={i} id={i} click={this.handleSquareClick.bind(this)} >
+											<Square key={i} id={i} click={this.handleSquareClick.bind(this)}>
 												{this.state.imagesToDraw[i]}
 											</Square>
+											
 										);
 									});
+
+
 		const history = this.state.history.map((x, i) => {
 												i % 2 === 0 ? historyClassName = 'leftHistory' : historyClassName = 'rightHistory';
 												return (
 													<History key={i} id={i} cssClass={historyClassName} click={this.handleHistoryClick.bind(this)}/>
+
 												)
 											})
 		const result = this.state.resultIsOpened ? <Result winner={this.state.winnerMessage} click={this.gameRestart}/> : null;
+		const sound = (this.state.playSound) ? <SoundManager soundIndex={0} loop={false} status={'PLAYING'} /> : null;
+
+
 
 		return (
 			<div className='game' >
 				{nextPlayer}
 				<div className='board'>
 					{board}
+					{sound}
 				</div>
 				<div className='history'>
 					<div className='title'>
