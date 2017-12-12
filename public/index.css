@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'manaspc';
+  src: local('manaspc'), url(fonts/manaspc.woff) format('woff');
+}
+
+body {
+		font-family:'manaspc';
+}

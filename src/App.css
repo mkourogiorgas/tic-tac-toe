@@ -5,7 +5,21 @@ body {
 	height: 100%;
 	position: absolute;
 	margin: 0;
-	font-family:'Lato', sans-serif;
+	font-family:'manaspc', sans-serif;
+
+	/* disable copy highlight*/
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.mainTitle {
+	font-size: 60px;
+	padding-top: 40px;
+	color: #D8C8B3;
 }
 
 .board {
@@ -50,7 +64,7 @@ body {
 .nextPlayer {
 	color: #D8C8B3;
 	font-size: 25px;
-	font-family:'Lato', sans-serif;
+	font-family:'manaspc', sans-serif;
 	margin-top: 20px;
 	-webkit-animation: flicker 3s infinite;
 }
@@ -136,7 +150,6 @@ body {
 	float: left;
 	font-size: 25px;
 	color: #D8C8B3;
-
 }
 
 .history button {
@@ -151,51 +164,35 @@ body {
 	color: #666666;
 	font-size: 20px;
 	padding: 5px 24px;
+	font-family:'manaspc', sans-serif;
 }
 
 /***** Popup *****/
 .popup {
 	/*opacity: 0;*/
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  background-color: rgba(0,0,0, 0.5);
-}
-.popup_inner {
-		/*opacity: 0;*/
-	border-radius: 5px;
-	border: 2px solid #202020;
-  position: absolute;
-  left: 25%;
-  right: 25%;
-  top: 15%;
-  bottom: 65%;
-  margin: auto;
-  background: #D8C8B3;
-  box-shadow: 0 0 1em rgba(0, 0, 0, 0.6);
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	background-color: rgba(0,0,0, 0.5);
 }
 
-.announcementTitle {
-	margin: 5%;
+.popupTitle {
+	margin: 5% 5% 15% 5%;
 	padding: 2%;
 	font-size: 30px;
 	color: #202020;
-	border-bottom: 2px solid #202020;
 }
 
-.announcement button {
-	margin-top: 5px;
-	background: transparent;
-	border-radius: 1px;
-	border-radius: 6px;
-	border: 1px solid #202020;
-	cursor: pointer;
+.tryAgain {
 	color: #202020;
-	font-size: 20px;
-	padding: 5px 24px;
+	font-size: 25px;
+	-webkit-animation: flicker 2s infinite;
+	text-shadow: 1px 1px #D8C8B3;
 }
+	
