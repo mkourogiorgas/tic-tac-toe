@@ -1,6 +1,6 @@
 import React from 'react';
-import symbolX from './assets/images/X.png';
-import symbolO from './assets/images/O.png';
+import symbolX from '../assets/images/X.png';
+import symbolO from '../assets/images/O.png';
 
 const SymbolX = () => {
 	return (

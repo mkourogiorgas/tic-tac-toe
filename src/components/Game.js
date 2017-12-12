@@ -5,7 +5,7 @@ import NextPlayer from './NextPlayer.js';
 import History from './History.js';
 import Result from './Result.js';
 import SoundManager from './SoundManager';
-import './App.css';
+import '../App.css';
 
 class Game extends React.Component {
 	// nextPlayer: next game player, initialized when user selects a symbol,

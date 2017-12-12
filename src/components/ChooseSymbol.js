@@ -1,7 +1,7 @@
 import React from 'react';
-import symbolX from './assets/images/X.png';
-import symbolO from './assets/images/O.png';
-import './App.css';
+import symbolX from '../assets/images/X.png';
+import symbolO from '../assets/images/O.png';
+import '../App.css';
 
 class ChooseSymbol extends React.Component {
 
