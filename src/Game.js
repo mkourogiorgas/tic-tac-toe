@@ -41,8 +41,6 @@ class Game extends React.Component {
 				history: historyUpdate,
 				playSound: true,
 			})
-				
-
 			this.calculateResult(gameBoard);
 		}
 	}
@@ -178,7 +176,6 @@ class Game extends React.Component {
 		let historyClassName;
 		const firstPlayerImage = this.playerToImage(this.props.firstPlayer);
 		const secondPlayerImage = this.playerToImage(this.props.secondPlayer);
-
 		const nextPlayer = <NextPlayer player={this.state.nextPlayer}/>;
 		const board = [...Array(9)].map((x, i) => {
 										return (
@@ -188,8 +185,6 @@ class Game extends React.Component {
 											
 										);
 									});
-
-
 		const history = this.state.history.map((x, i) => {
 												i % 2 === 0 ? historyClassName = 'leftHistory' : historyClassName = 'rightHistory';
 												return (
@@ -197,10 +192,8 @@ class Game extends React.Component {
 
 												)
 											})
-		const result = this.state.resultIsOpened ? <Result winner={this.state.winnerMessage} click={this.gameRestart}/> : null;
+		const result = this.state.resultIsOpened ? <Result winner={this.state.winnerMessage} click={this.gameRestart} animate={true}/> : null;
 		const sound = (this.state.playSound) ? <SoundManager soundIndex={0} loop={false} status={'PLAYING'} /> : null;
-
-
 
 		return (
 			<div className='game' >
