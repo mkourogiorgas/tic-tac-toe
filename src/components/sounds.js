@@ -5,8 +5,8 @@ export default [
     duration: 0
   },
   {
-    url: './sounds/eyes_wide_shut.mp3',
-    title: 'eyes_wide_shut',
+    url: './sounds/background_music.mp3',
+    title: 'background_music',
     duration: 0
   },
 ];

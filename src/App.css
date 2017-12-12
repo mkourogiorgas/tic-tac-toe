@@ -6,7 +6,6 @@ body {
 	position: absolute;
 	margin: 0;
 	font-family:'manaspc', sans-serif;
-
 	/* disable copy highlight*/
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -15,6 +14,8 @@ body {
 	-ms-user-select: none;
 	user-select: none;
 }
+
+button:focus {outline:0;}
 
 .mainTitle {
 	font-size: 60px;
@@ -195,4 +196,3 @@ body {
 	-webkit-animation: flicker 2s infinite;
 	text-shadow: 1px 1px #D8C8B3;
 }
-	

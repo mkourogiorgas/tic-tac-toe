@@ -21,7 +21,7 @@ class Result extends React.Component {
 				<Transition in={this.state.showBlock} timeout={1000}>
 					{state => (
 							<div style={{zIndex: 10, position: 'fixed', width: '30%', left:'35%', 'border':'1px solid #D8C8B3',
-																											height: '200px', backgroundColor: 'white', margin: 'auto',
+																											height: '230px', backgroundColor: 'white', margin: 'auto',
 																											top: 0, top:'25%', transition: 'opacity 1s ease-out', 
 																											opacity: state === 'exited' ? 0: 1}}> 
 								<div className='popupTitle'>{this.props.winner}</div>
